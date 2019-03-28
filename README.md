@@ -1,0 +1,2 @@
+# control_yourmouse
+自娱自乐的小程序。 浏览器配合vimium基本上可以做到纯键盘操作，但偶尔还是需要鼠标点击。这里用python基于pynput实现用键盘组合键控制鼠标移动。
