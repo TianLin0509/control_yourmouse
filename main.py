@@ -1,38 +1,23 @@
-import win32gui
-import win32api
-import win32con
-import time
-from pynput.keyboard import Key, Listener
+from pynput.keyboard import Key, Listener, KeyCode
+from control_funcs import *
 
-from pynput import keyboard
+
 current = 0
+Hotkeys = {KeyCode(char=';'): mouse_left, KeyCode(char="'"): mouse_right,
+           KeyCode(char='['): mouse_up, KeyCode(char='/'): mouse_down}
+State = {Key.ctrl_l: 1, Key.shift_l: 2, Key.alt_l: 3}
+
 def on_press(key):
-    print( win32api.GetCursorPos())
+    #print( win32api.GetCursorPos())
     #print(str(key))
-    if key == keyboard.Key.ctrl_l:
-        global  current
-        current = 1
+    global current
+    if key in State:
+        current = State[key]
     if key == keyboard.Key.esc:
         listener.stop()
-    if current == 1 and key == keyboard.KeyCode(char=';'):
-        #print('get')
-        x, y = win32api.GetCursorPos()
-        win32api.SetCursorPos([x - 15, y])
 
-    if current == 1 and key == keyboard.KeyCode(char="'"):
-        #print('get2')
-        x, y = win32api.GetCursorPos()
-        win32api.SetCursorPos([x + 15, y])
-
-    if current == 1 and key == keyboard.KeyCode(char='['):
-        # print('get')
-        x, y = win32api.GetCursorPos()
-        win32api.SetCursorPos([x , y - 15])
-
-    if current == 1 and key == keyboard.KeyCode(char="/"):
-        # print('get2')
-        x, y = win32api.GetCursorPos()
-        win32api.SetCursorPos([x, y + 15])
+    if key in Hotkeys:
+        Hotkeys[key](current)
 
 
 def on_release(key):
